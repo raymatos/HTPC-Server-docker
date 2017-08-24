@@ -1,5 +1,5 @@
 shares:
- image: mbodenhamer/alpine-data
+ image: tianon/true
  volumes:
   - /mnt/docker/configs:/configs
   - /mnt/docker/plex:/plex
@@ -27,7 +27,6 @@ sabnzbd:
  extra_hosts:
   - 0.0.0.0:localhost
  restart: always
- 
 sonarr:
  image: linuxserver/sonarr
  volumes_from:
@@ -46,7 +45,7 @@ sonarr:
   - sabnzbd
   - transmission
  restart: always
- 
+
 sickbeard:
  image: linuxserver/sickbeard
  volumes_from:
@@ -66,7 +65,7 @@ sickbeard:
  extra_hosts:
   - 0.0.0.0:localhost
  restart: always
- 
+
 couchpotato:
  image: linuxserver/couchpotato
  volumes_from:
@@ -87,7 +86,7 @@ couchpotato:
  extra_hosts:
   - 0.0.0.0:localhost
  restart: always
- 
+
 plex:
  image: plexinc/pms-docker
  volumes_from:
@@ -114,7 +113,7 @@ plex:
   - HOSTNAME=Plexserver
   - PLEX_CLAIM=claim-9xCgKVXyCKfvBygaFxAr
  restart: always
- 
+
 plexpy:
  image: linuxserver/plexpy
  volumes_from:
@@ -129,7 +128,7 @@ plexpy:
   - PUID=0
   - TZ=America/New_York
  restart: always
- 
+
 transmission:
  image: haugene/transmission-openvpn
  volumes_from:
@@ -171,7 +170,7 @@ transmission:
  ports:
   - 9091:9091
  restart: always
- 
+
  privileged: true
 nginx:
  image: nginx
@@ -186,4 +185,3 @@ nginx:
  ports:
   - 8091:8091
  restart: always
- 
