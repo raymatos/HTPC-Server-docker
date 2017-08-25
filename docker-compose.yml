@@ -211,7 +211,7 @@ portainer:
   ports:
     - 9000:9000
   volumes:
-    - /mnt/docker/configs/portainer:/data
+    - /opt/docker-configs/portainer:/data
     - /var/run/docker.sock:/var/run/docker.sock
   restart:
     always
