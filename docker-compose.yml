@@ -205,3 +205,13 @@ radarr:
   - PGID=816
   - TZ=America/New_York
  restart: always
+portainer:
+  image: portainer/portainer
+  container_name: portainer
+  ports:
+    - 9000:9000
+  volumes:
+    - /mnt/docker/configs/portainer:/data
+    - /var/run/docker.sock:/var/run/docker.sock
+  restart:
+    always
