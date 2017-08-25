@@ -33,6 +33,7 @@ sonarr:
   - /configs/sonarr:/config
   - /data/TV_Shows:/tv
   - /temp/tv/:/temp/tv
+  - /etc/localtime:/etc/localtime:ro
  ports:
   - 8989:8989
  environment:
@@ -66,7 +67,7 @@ couchpotato:
   - shares
  volumes:
   - /configs/couchpotato:/config
-  - /temp/movies/release:/downloads
+  - /temp/movies:/downloads
   - /data/Movies:/movies
  links:
   - sabnzbd
@@ -168,4 +169,39 @@ nginx:
   - ./nginx.conf:/etc/nginx/nginx.conf:ro
  ports:
   - 8091:8091
+ restart: always
+hydra
+ image: linuxserver/hydra
+ volumes_from:
+  - shares
+ volumes:
+  - /configs/hydra:/config
+  - /temp/:/downloads
+ links:
+  - sabnzbd
+  - transmission
+ environment:
+  - PGID=0
+  - PUID=0
+  - TZ=America/New_York
+ ports:
+  - 5075:5075
+radarr:
+ image: linuxserver/radarr
+ volumes_from:
+  - shares
+ volumes:
+  - /configs/radarr:/config
+  - /temp/movies:/downloads
+  - /data/Movies:/movies
+  - /etc/localtime:/etc/localtime:ro
+ links:
+  - sabnzbd
+  - transmission
+ ports:
+  - 7878:7878
+ environment:
+  - PUID=816
+  - PGID=816
+  - TZ=America/New_York
  restart: always
