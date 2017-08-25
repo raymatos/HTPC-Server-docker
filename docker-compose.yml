@@ -170,7 +170,7 @@ nginx:
  ports:
   - 8091:8091
  restart: always
-hydra
+hydra:
  image: linuxserver/hydra
  volumes_from:
   - shares
