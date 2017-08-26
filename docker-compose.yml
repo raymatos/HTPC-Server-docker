@@ -1,196 +1,195 @@
 version: "3"
-
-
-sabnzbd:
- image: funkypenguin/sabnzbd
- volumes:
-  - /etc/localtime:/etc/localtime:ro
-  - /mnt/docker/configs/sabnzbd:/config
-  - downloads:/data/downloads
- environment:
-  - PUID=816
-  - PGID=816
-  - TZ=America/New_York
- ports:
-  - 8080:8080
-  - 9090:9090
- restart: always
-sonarr:
- image: linuxserver/sonarr
- volumes:
-  - /mnt/docker/configs/sonarr:/config
-  - downloads:/data/downloads
-  - media_rw:/data/media
-  - /etc/localtime:/etc/localtime:ro
- ports:
-  - 8989:8989
- environment:
-  - PUID=816
-  - PGID=816
-  - TZ=America/New_York
- links:
-  - sabnzbd
-  - transmission
- restart: always
-sickbeard:
- image: linuxserver/sickbeard
- volumes:
-  - /mnt/docker/configs/sickbeard:/config
-  - downloads:/data/downloads
-  - media_rw:/data/media
-  - /etc/localtime:/etc/localtime:ro
- links:
-  - sabnzbd
- ports:
-  - 8081:8081
- environment:
-  - PUID=816
-  - PGID=816
-  - TZ=America/New_York
- restart: always
-couchpotato:
- image: linuxserver/couchpotato
- volumes:
-  - /mnt/docker/configs/couchpotato:/config
-  - downloads:/data/downloads
-  - media_rw:/data/media
-  - /etc/localtime:/etc/localtime:ro
- links:
-  - sabnzbd
-  - transmission
- ports:
-  - 5050:5050
- environment:
-  - PUID=816
-  - PGID=816
-  - TZ=America/New_York
- restart: always
-plex:
- image: plexinc/pms-docker
- volumes:
-  - /etc/localtime:/etc/localtime:ro
-  - /mnt/docker/configs/plex:/config
-  - /mnt/docker/plex/transcode:/transcode
-  - media_ro:/data
- ports:
-  - 32400:32400/tcp
-  - 3005:3005/tcp
-  - 8324:8324/tcp
-  - 32469:32469/tcp
-  - 1900:1900/udp
-  - 32410:32410/udp
-  - 32412:32412/udp
-  - 32413:32413/udp
-  - 32414:32414/udp
- environment:
-  - PLEX_UID=816
-  - PLEX_GID=816
-  - TZ=America/New_York
-  - ADVERTISE_IP=http://108.58.62.107:32400/
-  - HOSTNAME=Plexserver
-  - PLEX_CLAIM=claim-9xCgKVXyCKfvBygaFxAr
- restart: always
-plexpy:
- image: linuxserver/plexpy
- volumes:
-  - /etc/localtime:/etc/localtime:ro
-  - /mnt/docker/plex/Library/Application Support/Plex Media Server/Logs:/logs:ro
-  - /mnt/docker/configs/plexpy:/config
- ports:
-  - 8181:8181
- environment:
-  - PGID=0
-  - PUID=0
-  - TZ=America/New_York
- restart: always
-transmission:
- image: haugene/transmission-openvpn
- environment:
-  - OPENVPN_USERNAME=raymatos
-  - OPENVPN_PASSWORD=t3dd3c4t
-  - OPENVPN_PROVIDER=GIGANEWS
-  - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
-  - TRANSMISSION_HOME=/config
-  - TRANSMISSION_SPEED_LIMIT_DOWN=1000
-  - TRANSMISSION_SPEED_LIMIT_DOWN_ENABLED=true
-  - TRANSMISSION_SPEED_LIMIT_UP=1
-  - TRANSMISSION_SPEED_LIMIT_UP_ENABLED=true
-  - TRANSMISSION_DOWNLOAD_DIR=/temp
-  - TRANSMISSION_INCOMPLETE_DIR=/incomplete
-  - TRANSMISSION_INCOMPLETE_DIR_ENABLED=true
-  - TRANSMISSION_DOWNLOAD_LIMIT=1000
-  - TRANSMISSION_ALT_SPEED_DOWN=4000
-  - TRANSMISSION_ALT_SPEED_UP=1
-  - TRANSMISSION_ALT_SPEED_ENABLED=false
-  - TRANSMISSION_ALT_SPEED_TIME_ENABLED=false
-  - TRANSMISSION_DOWNLOAD_QUEUE_SIZE=50
-  - TRANSMISSION_DOWNLOAD_QUEUE_ENABLED=true
-  - TRANSMISSION_UPLOAD_SLOTS_PER_TORRENT=1
-  - PUID=816
-  - PGID=816
-  - TZ=America/New_York
- volumes:
-  - /etc/localtime:/etc/localtime:ro
-  - /mnt/docker/configs/transmission:/config
-  - downloads:/data/downloads
- dns:
-  - 8.8.8.8
-  - 8.8.4.4
- ports:
-  - 9091:9091
- restart: always
- privileged: true
-nginx:
- image: nginx
- links:
-  - transmission
- volumes:
-  - ./nginx.conf:/etc/nginx/nginx.conf:ro
- ports:
-  - 8091:8091
- restart: always
-hydra:
- image: linuxserver/hydra
- volumes:
-  - /etc/localtime:/etc/localtime:ro
-  - /mnt/docker/configs/hydra:/config
-  - downloads:/data/downloads
- links:
-  - sabnzbd
-  - transmission
- environment:
-  - PGID=0
-  - PUID=0
-  - TZ=America/New_York
- ports:
-  - 5075:5075
-radarr:
- image: linuxserver/radarr
- volumes:
-  - /etc/localtime:/etc/localtime:ro
-  - /mnt/docker/configs/radarr:/config
-  - downloads:/data/downloads
-  - media_rw:/data/media
- links:
-  - sabnzbd
-  - transmission
- ports:
-  - 7878:7878
- environment:
-  - PUID=816
-  - PGID=816
-  - TZ=America/New_York
- restart: always
-portainer:
-  image: portainer/portainer
-  container_name: portainer
-  ports:
-    - 9000:9000
-  volumes:
-    - /opt/docker-configs/portainer:/data
-    - /var/run/docker.sock:/var/run/docker.sock
-  restart:
-    always
+services:
+  sabnzbd:
+   image: funkypenguin/sabnzbd
+   volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /mnt/docker/configs/sabnzbd:/config
+    - downloads:/data/downloads
+   environment:
+    - PUID=816
+    - PGID=816
+    - TZ=America/New_York
+   ports:
+    - 8080:8080
+    - 9090:9090
+   restart: always
+  sonarr:
+   image: linuxserver/sonarr
+   volumes:
+    - /mnt/docker/configs/sonarr:/config
+    - downloads:/data/downloads
+    - media_rw:/data/media
+    - /etc/localtime:/etc/localtime:ro
+   ports:
+    - 8989:8989
+   environment:
+    - PUID=816
+    - PGID=816
+    - TZ=America/New_York
+   links:
+    - sabnzbd
+    - transmission
+   restart: always
+  sickbeard:
+   image: linuxserver/sickbeard
+   volumes:
+    - /mnt/docker/configs/sickbeard:/config
+    - downloads:/data/downloads
+    - media_rw:/data/media
+    - /etc/localtime:/etc/localtime:ro
+   links:
+    - sabnzbd
+   ports:
+    - 8081:8081
+   environment:
+    - PUID=816
+    - PGID=816
+    - TZ=America/New_York
+   restart: always
+  couchpotato:
+   image: linuxserver/couchpotato
+   volumes:
+    - /mnt/docker/configs/couchpotato:/config
+    - downloads:/data/downloads
+    - media_rw:/data/media
+    - /etc/localtime:/etc/localtime:ro
+   links:
+    - sabnzbd
+    - transmission
+   ports:
+    - 5050:5050
+   environment:
+    - PUID=816
+    - PGID=816
+    - TZ=America/New_York
+   restart: always
+  plex:
+   image: plexinc/pms-docker
+   volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /mnt/docker/configs/plex:/config
+    - /mnt/docker/plex/transcode:/transcode
+    - media_ro:/data
+   ports:
+    - 32400:32400/tcp
+    - 3005:3005/tcp
+    - 8324:8324/tcp
+    - 32469:32469/tcp
+    - 1900:1900/udp
+    - 32410:32410/udp
+    - 32412:32412/udp
+    - 32413:32413/udp
+    - 32414:32414/udp
+   environment:
+    - PLEX_UID=816
+    - PLEX_GID=816
+    - TZ=America/New_York
+    - ADVERTISE_IP=http://108.58.62.107:32400/
+    - HOSTNAME=Plexserver
+    - PLEX_CLAIM=claim-9xCgKVXyCKfvBygaFxAr
+   restart: always
+  plexpy:
+   image: linuxserver/plexpy
+   volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /mnt/docker/plex/Library/Application Support/Plex Media Server/Logs:/logs:ro
+    - /mnt/docker/configs/plexpy:/config
+   ports:
+    - 8181:8181
+   environment:
+    - PGID=0
+    - PUID=0
+    - TZ=America/New_York
+   restart: always
+  transmission:
+   image: haugene/transmission-openvpn
+   environment:
+    - OPENVPN_USERNAME=raymatos
+    - OPENVPN_PASSWORD=t3dd3c4t
+    - OPENVPN_PROVIDER=GIGANEWS
+    - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
+    - TRANSMISSION_HOME=/config
+    - TRANSMISSION_SPEED_LIMIT_DOWN=1000
+    - TRANSMISSION_SPEED_LIMIT_DOWN_ENABLED=true
+    - TRANSMISSION_SPEED_LIMIT_UP=1
+    - TRANSMISSION_SPEED_LIMIT_UP_ENABLED=true
+    - TRANSMISSION_DOWNLOAD_DIR=/temp
+    - TRANSMISSION_INCOMPLETE_DIR=/incomplete
+    - TRANSMISSION_INCOMPLETE_DIR_ENABLED=true
+    - TRANSMISSION_DOWNLOAD_LIMIT=1000
+    - TRANSMISSION_ALT_SPEED_DOWN=4000
+    - TRANSMISSION_ALT_SPEED_UP=1
+    - TRANSMISSION_ALT_SPEED_ENABLED=false
+    - TRANSMISSION_ALT_SPEED_TIME_ENABLED=false
+    - TRANSMISSION_DOWNLOAD_QUEUE_SIZE=50
+    - TRANSMISSION_DOWNLOAD_QUEUE_ENABLED=true
+    - TRANSMISSION_UPLOAD_SLOTS_PER_TORRENT=1
+    - PUID=816
+    - PGID=816
+    - TZ=America/New_York
+   volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /mnt/docker/configs/transmission:/config
+    - downloads:/data/downloads
+   dns:
+    - 8.8.8.8
+    - 8.8.4.4
+   ports:
+    - 9091:9091
+   restart: always
+   privileged: true
+  nginx:
+   image: nginx
+   links:
+    - transmission
+   volumes:
+    - ./nginx.conf:/etc/nginx/nginx.conf:ro
+   ports:
+    - 8091:8091
+   restart: always
+  hydra:
+   image: linuxserver/hydra
+   volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /mnt/docker/configs/hydra:/config
+    - downloads:/data/downloads
+   links:
+    - sabnzbd
+    - transmission
+   environment:
+    - PGID=0
+    - PUID=0
+    - TZ=America/New_York
+   ports:
+    - 5075:5075
+  radarr:
+   image: linuxserver/radarr
+   volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /mnt/docker/configs/radarr:/config
+    - downloads:/data/downloads
+    - media_rw:/data/media
+   links:
+    - sabnzbd
+    - transmission
+   ports:
+    - 7878:7878
+   environment:
+    - PUID=816
+    - PGID=816
+    - TZ=America/New_York
+   restart: always
+  portainer:
+    image: portainer/portainer
+    container_name: portainer
+    ports:
+      - 9000:9000
+    volumes:
+      - /opt/docker-configs/portainer:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart:
+      always
 volumes:
   downloads:
     driver_opts:
