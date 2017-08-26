@@ -216,9 +216,9 @@ portainer:
   restart:
     always
 volumes:
-  docker_config:
+  docker:
     driver: local
     driver_opts:
       type: nfs
       o: addr=192.168.111.35,rw
-      device: /mnt/tank1/docker
+      device: ":/mnt/tank1/docker"
