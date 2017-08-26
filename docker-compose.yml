@@ -1,3 +1,7 @@
+version: "3"
+services:
+
+
 sabnzbd:
  image: funkypenguin/sabnzbd
  volumes:
