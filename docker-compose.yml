@@ -189,11 +189,11 @@ portainer:
   restart:
     always
 volumes:
- downloads:
-   driver_opts:
-     type: nfs
-     device: :/mnt/tank1/downloads
-     o: addr=192.168.111.35,rw
+  downloads:
+    driver_opts:
+      type: nfs
+      device: :/mnt/tank1/downloads
+      o: addr=192.168.111.35,rw
   media_ro:
     driver_opts:
       type: nfs
