@@ -216,7 +216,7 @@ portainer:
   restart:
     always
 volumes:
-  dockerConfig:
+  docker_config:
     driver: local
     driver_opts:
       type: nfs
