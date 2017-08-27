@@ -65,7 +65,7 @@ services:
     - TZ=America/New_York
    restart: always
   plex:
-   image: plexinc/pms-docker
+   image: plexinc/pms-docker:plexpass
    volumes:
     - /etc/localtime:/etc/localtime:ro
     - /mnt/docker/configs/plex:/config
