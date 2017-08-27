@@ -19,7 +19,7 @@ services:
    volumes:
     - /mnt/docker/configs/sonarr:/config
     - downloads:/data/downloads
-    - media_rw:/data/media
+    - media:/data/media
     - /etc/localtime:/etc/localtime:ro
    ports:
     - 8989:8989
@@ -36,7 +36,7 @@ services:
    volumes:
     - /mnt/docker/configs/sickbeard:/config
     - downloads:/data/downloads
-    - media_rw:/data/media
+    - media:/data/media
     - /etc/localtime:/etc/localtime:ro
    links:
     - sabnzbd
@@ -52,7 +52,7 @@ services:
    volumes:
     - /mnt/docker/configs/couchpotato:/config
     - downloads:/data/downloads
-    - media_rw:/data/media
+    - media:/data/media
     - /etc/localtime:/etc/localtime:ro
    links:
     - sabnzbd
@@ -70,7 +70,7 @@ services:
     - /etc/localtime:/etc/localtime:ro
     - /mnt/docker/configs/plex:/config
     - /mnt/docker/plex/transcode:/transcode
-    - media_ro:/data
+    - media:/data
    ports:
     - 32400:32400/tcp
     - 3005:3005/tcp
@@ -169,7 +169,7 @@ services:
     - /etc/localtime:/etc/localtime:ro
     - /mnt/docker/configs/radarr:/config
     - downloads:/data/downloads
-    - media_rw:/data/media
+    - media:/data/media
    links:
     - sabnzbd
     - transmission
@@ -196,12 +196,7 @@ volumes:
       type: nfs
       device: :/mnt/tank1/downloads
       o: addr=192.168.111.35,rw
-  media_ro:
-    driver_opts:
-      type: nfs
-      device: :/mnt/tank1/media
-      o: addr=192.168.111.35,ro
-  media_rw:
+  media:
     driver_opts:
       type: nfs
       device: :/mnt/tank1/media
