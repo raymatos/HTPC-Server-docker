@@ -70,7 +70,7 @@ services:
     - /etc/localtime:/etc/localtime:ro
     - /mnt/docker/configs/plex:/config
     - /mnt/docker/plex/transcode:/transcode
-    - media:/data
+    - media:/data:nocopy
    ports:
     - 32400:32400/tcp
     - 3005:3005/tcp
@@ -96,7 +96,7 @@ services:
     - /mnt/docker/plex/Library/Application Support/Plex Media Server/Logs:/logs:ro
     - /mnt/docker/configs/plexpy:/config
    ports:
-    - 8181:8181
+    - 8082:8082
    environment:
     - PGID=0
     - PUID=0
