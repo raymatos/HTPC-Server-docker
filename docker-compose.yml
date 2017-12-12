@@ -69,7 +69,7 @@ services:
    volumes:
     - /etc/localtime:/etc/localtime:ro
     - /mnt/docker/configs/plex:/config
-    - /opt/docker-configs/plex/transcode:/transcode
+    - /tmp/plex/transcode:/transcode
     - media:/data:nocopy
    ports:
     - 32400:32400/tcp
@@ -88,8 +88,6 @@ services:
     - ADVERTISE_IP=http://108.58.62.107:32400/
     - HOSTNAME=Plexserver
     - PLEX_CLAIM=claim-9xCgKVXyCKfvBygaFxAr
-   links:
-    - plexpy    
    restart: always
   plexpy:
    image: linuxserver/plexpy
@@ -103,6 +101,8 @@ services:
     - PUID=816
     - PGID=816
     - TZ=America/New_York
+   depends_on:
+    - plex
    restart: always
   transmission:
    image: haugene/transmission-openvpn
