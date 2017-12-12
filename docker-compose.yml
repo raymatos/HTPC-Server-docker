@@ -14,23 +14,23 @@ services:
     - 8080:8080
     - 9090:9090
    restart: always
-  sonarr:
-   image: linuxserver/sonarr
-   volumes:
-    - /mnt/docker/configs/sonarr:/config
-    - downloads:/data/downloads
-    - media:/data/media
-    - /etc/localtime:/etc/localtime:ro
-   ports:
-    - 8989:8989
-   environment:
-    - PUID=816
-    - PGID=816
-    - TZ=America/New_York
-   links:
-    - sabnzbd
-    - transmission
-   restart: always
+  # sonarr:
+  #  image: linuxserver/sonarr
+  #  volumes:
+  #   - /mnt/docker/configs/sonarr:/config
+  #   - downloads:/data/downloads
+  #   - media:/data/media
+  #   - /etc/localtime:/etc/localtime:ro
+  #  ports:
+  #   - 8989:8989
+  #  environment:
+  #   - PUID=816
+  #   - PGID=816
+  #   - TZ=America/New_York
+  #  links:
+  #   - sabnzbd
+  #   - transmission
+  #  restart: always
   sickbeard:
    image: linuxserver/sickbeard
    volumes:
@@ -98,8 +98,8 @@ services:
    ports:
     - 8182:8181
    environment:
-    - PGID=0
-    - PUID=0
+    - PUID=816
+    - PGID=816
     - TZ=America/New_York
    restart: always
   transmission:
@@ -165,31 +165,34 @@ services:
     - TZ=America/New_York
    ports:
     - 5075:5075
-  radarr:
-   image: linuxserver/radarr
-   volumes:
-    - /etc/localtime:/etc/localtime:ro
-    - /mnt/docker/configs/radarr:/config
-    - downloads:/data/downloads
-    - media:/data/media
-   links:
-    - sabnzbd
-    - transmission
-   ports:
-    - 7878:7878
-   environment:
-    - PUID=816
-    - PGID=816
-    - TZ=America/New_York
-   restart: always
-  portainer:
-    image: portainer/portainer
-    container_name: portainer
+  # radarr:
+  #  image: linuxserver/radarr
+  #  volumes:
+  #   - /etc/localtime:/etc/localtime:ro
+  #   - /mnt/docker/configs/radarr:/config
+  #   - downloads:/data/downloads
+  #   - media:/data/media
+  #  links:
+  #   - sabnzbd
+  #   - transmission
+  #  ports:
+  #   - 7878:7878
+  #  environment:
+  #   - PUID=816
+  #   - PGID=816
+  #   - TZ=America/New_York
+  #  restart: always
+  htpcmanager:
+    image: linuxserver/htpcmanager
+    container_name: htpcmanager
     ports:
       - 9000:9000
     volumes:
-      - /opt/docker-configs/portainer:/data
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/docker/configs/htpcmanager:/config
+    environment:
+     - PUID=816
+     - PGID=816
+     - TZ=America/New_York
     restart:
       always
 volumes:
