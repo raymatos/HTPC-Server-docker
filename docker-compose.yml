@@ -69,7 +69,7 @@ services:
    volumes:
     - /etc/localtime:/etc/localtime:ro
     - /mnt/docker/configs/plex:/config
-    - /mnt/docker/plex/transcode:/transcode
+    - /opt/docker-configs/plex/transcode:/transcode
     - media:/data:nocopy
    ports:
     - 32400:32400/tcp
@@ -88,12 +88,14 @@ services:
     - ADVERTISE_IP=http://108.58.62.107:32400/
     - HOSTNAME=Plexserver
     - PLEX_CLAIM=claim-9xCgKVXyCKfvBygaFxAr
+   links:
+    - plexpy    
    restart: always
   plexpy:
    image: linuxserver/plexpy
    volumes:
     - /etc/localtime:/etc/localtime:ro
-    - /mnt/docker/plex/Library/Application Support/Plex Media Server/Logs:/logs:ro
+    - /mnt/docker/configs/plex/Library/Application Support/Plex Media Server/Logs:/logs:ro
     - /mnt/docker/configs/plexpy:/config
    ports:
     - 8182:8181
