@@ -184,7 +184,6 @@ services:
   #  restart: always
   htpcmanager:
     image: linuxserver/htpcmanager
-    container_name: htpcmanager
     ports:
       - 8085:8085
     volumes:
