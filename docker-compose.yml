@@ -196,10 +196,10 @@ volumes:
   downloads:
     driver_opts:
       type: nfs
-      device: :/mnt/tank1/downloads
+      device: :/mnt/tank/downloads
       o: addr=192.168.111.35,rw
   media:
     driver_opts:
       type: nfs
-      device: :/mnt/tank1/media
+      device: :/mnt/tank/media
       o: addr=192.168.111.35,rw
