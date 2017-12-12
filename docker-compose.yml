@@ -162,8 +162,8 @@ services:
     - sabnzbd
     - transmission
    environment:
-    - PGID=0
-    - PUID=0
+    - PGID=816
+    - PUID=816
     - TZ=America/New_York
    ports:
     - 5075:5075
