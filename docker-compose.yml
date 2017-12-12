@@ -186,7 +186,7 @@ services:
     image: linuxserver/htpcmanager
     container_name: htpcmanager
     ports:
-      - 9000:9000
+      - 8085:8085
     volumes:
       - /mnt/docker/configs/htpcmanager:/config
     environment:
